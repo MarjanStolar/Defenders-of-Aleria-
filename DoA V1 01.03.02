@@ -1,0 +1,138 @@
+import uuid
+
+class Player:
+    def __init__(self, address, name):
+        self.address = address
+        self.name = name
+        self.balance = 0  # In-game token balance
+        self.xp = 0       # Experience points
+
+class Game:
+    def __init__(self):
+        self.players = {}  # Mapping of player addresses to Player objects
+        self.token_name = "GameToken"
+        self.conversion_rate = 100  # 1 ETH = 100 GameTokens
+
+    def create_player(self, name):
+        address = str(uuid.uuid4())[:8]  # Simplified address for demo
+        if address not in self.players:
+            self.players[address] = Player(address, name)
+            print(f"Player {name} created with address {address}")
+            return self.players[address]
+        else:
+            print("Address already exists. Try again.")
+            return None
+
+    def play_game(self, player):
+        # Simple gameplay mechanic: Gain XP and tokens
+        player.xp += 100
+        player.balance += 10
+        print(f"Player {player.name} earned 10 {self.token_name} and 100 XP!")
+
+    def earn_tokens(self, player):
+        # Players can earn tokens based on their XP
+        earned_tokens = player.xp // 100
+        if earned_tokens > 0:
+            player.balance += earned_tokens
+            player.xp = 0
+            print(f"Player {player.name} earned {earned_tokens} {self.token_name}!")
+        else:
+            print("Not enough XP to earn tokens.")
+
+    def convert_tokens(self, player, amount):
+        if player.balance >= amount:
+            eth_amount = amount / self.conversion_rate
+            player.balance -= amount
+            print(f"Player {player.name} converted {amount} {self.token_name} to {eth_amount} ETH!")
+        else:
+            print("Insufficient balance.")
+
+    def deposit_tokens(self, player, amount):
+        if amount <= player.balance:
+            # Simulate deposit to wallet
+            player.balance -= amount
+            print(f"Deposited {amount} {self.token_name} to player's wallet.")
+        else:
+            print("Insufficient balance.")
+
+def main():
+    game = Game()
+    print("Welcome to the Web3 Play-to-Earn Game!")
+
+    # Create a new player
+    name = input("Enter your player name: ")
+    player = game.create_player(name)
+
+    if player:
+        while True:
+            print("\nOptions:")
+            print("1. Play Game")
+            print("2. Check Balance")
+            print("3. Earn Tokens")
+
+class Player:
+    def __init__(self, address, name):
+        self.address = address
+        self.name = name
+        self.balance = 0  # In-game token balance
+        self.xp = 0       # Experience points
+        self.items = []   # Inventory for in-game items
+
+class Item:
+    def __init__(self, name, price, description):
+        self.name = name
+        self.price = price
+        self.description = description
+
+class Game:
+    def __init__(self):
+        self.players = {}  # Mapping of player addresses to Player objects
+        self.token_name = "GameToken"
+        self.conversion_rate = 100  # 1 ETH = 100 GameTokens
+        self.items = [
+            Item("Health Boost", 50, "Increases health by 10%"),
+            Item("Speed Boost", 30, "Increases speed by 5%"),
+            Item("Power Boost", 70, "Increases power by 15%")
+        ]
+
+    def create_player(self, name):
+        address = str(uuid.uuid4())[:8]  # Simplified address for demo
+        if address not in self.players:
+            self.players[address] = Player(address, name)
+            print(f"Player {name} created with address {address}")
+            return self.players[address]
+        else:
+            print("Address already exists. Try again.")
+            return None
+
+    def play_game(self, player):
+        # Simple gameplay mechanic: Gain XP and tokens
+        player.xp += 100
+        player.balance += 10
+        print(f"Player {player.name} earned 10 {self.token_name} and 100 XP!")
+
+    def earn_tokens(self, player):
+        # Players can earn tokens based on their XP
+        earned_tokens = player.xp // 100
+        if earned_tokens > 0:
+            player.balance += earned_tokens
+            player.xp = 0
+            print(f"Player {player.name} earned {earned_tokens} {self.token_name}!")
+        else:
+            print("Not enough XP to earn tokens.")
+
+    def convert_tokens(self, player, amount):
+        if player.balance >= amount:
+            eth_amount = amount / self.conversion_rate
+            player.balance -= amount
+            print(f"Player {player.name} converted {amount} {self.token_name} to {eth_amount} ETH!")
+        else:
+            print("Insufficient balance.")
+
+    def deposit_tokens(self, player, amount):
+        if amount <= player.balance:
+            # Simulate deposit to wallet
+            player.balance -= amount
+            print(f"Deposited {amount} {self.token_name} to player's wallet.")
+        else:
+            print("Insufficient balance.")
